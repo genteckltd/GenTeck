@@ -1,0 +1,106 @@
+{
+    "name": "GenTech ISP - Revolutionary Internet Service Provider",
+    "short_name": "GenTech ISP",
+    "description": "Leading ISP in Kenya offering fiber internet, 5G wireless, and satellite connectivity with affordable packages starting from KSh 10",
+    "start_url": "/",
+    "display": "standalone",
+    "orientation": "portrait-primary",
+    "theme_color": "#22c55e",
+    "background_color": "#1f2937",
+    "lang": "en",
+    "scope": "/",
+    "categories": ["utilities", "business", "productivity"],
+    "icons": [
+        {
+            "src": "/assets/images/icon-192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/assets/images/icon-512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any maskable"
+        },
+        {
+            "src": "/assets/images/icon-72.png",
+            "sizes": "72x72",
+            "type": "image/png"
+        },
+        {
+            "src": "/assets/images/icon-96.png",
+            "sizes": "96x96",
+            "type": "image/png"
+        },
+        {
+            "src": "/assets/images/icon-128.png",
+            "sizes": "128x128",
+            "type": "image/png"
+        },
+        {
+            "src": "/assets/images/icon-144.png",
+            "sizes": "144x144",
+            "type": "image/png"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "Check Coverage",
+            "short_name": "Coverage",
+            "description": "Check service coverage in your area",
+            "url": "/#coverage",
+            "icons": [
+                {
+                    "src": "/assets/images/shortcut-coverage.png",
+                    "sizes": "96x96"
+                }
+            ]
+        },
+        {
+            "name": "View Packages",
+            "short_name": "Packages",
+            "description": "Browse internet packages and pricing",
+            "url": "/#pricing",
+            "icons": [
+                {
+                    "src": "/assets/images/shortcut-pricing.png",
+                    "sizes": "96x96"
+                }
+            ]
+        },
+        {
+            "name": "Contact Support",
+            "short_name": "Support",
+            "description": "Get help and customer support",
+            "url": "/#contact",
+            "icons": [
+                {
+                    "src": "/assets/images/shortcut-support.png",
+                    "sizes": "96x96"
+                }
+            ]
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "/assets/images/screenshot-wide.png",
+            "sizes": "1280x720",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "GenTech ISP Homepage - Desktop View"
+        },
+        {
+            "src": "/assets/images/screenshot-narrow.png",
+            "sizes": "390x844",
+            "type": "image/png",
+            "form_factor": "narrow",
+            "label": "GenTech ISP Homepage - Mobile View"
+        }
+    ],
+    "prefer_related_applications": false,
+    "related_applications": [],
+    "edge_side_panel": {
+        "preferred_width": 400
+    }
+}

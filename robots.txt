@@ -1,0 +1,25 @@
+# GenTech ISP - Robots.txt
+# Allow all search engines to crawl the site
+
+User-agent: *
+Allow: /
+
+# Optimize crawling
+Allow: /assets/css/
+Allow: /assets/js/
+Allow: /assets/images/
+Allow: /manifest.json
+
+# Disallow admin or private areas (when they exist)
+Disallow: /admin/
+Disallow: /private/
+Disallow: /.git/
+Disallow: /node_modules/
+Disallow: /config/
+Disallow: /scripts/
+
+# Sitemap location
+Sitemap: https://gentech.co.ke/sitemap.xml
+
+# Crawl delay (optional - be gentle with servers)
+Crawl-delay: 1
