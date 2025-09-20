@@ -1,0 +1,25 @@
+/* TailwindCSS Configuration */
+/* This file contains custom Tailwind CSS configurations */
+
+/* Custom color utilities */
+.text-cyber-blue { color: #00F0FF; }
+.text-cyber-purple { color: #7B2CBF; }
+.text-cyber-pink { color: #FF2D75; }
+
+.bg-cyber-blue { background-color: #00F0FF; }
+.bg-cyber-purple { background-color: #7B2CBF; }
+.bg-cyber-pink { background-color: #FF2D75; }
+
+.border-cyber-blue { border-color: #00F0FF; }
+.border-cyber-purple { border-color: #7B2CBF; }
+.border-cyber-pink { border-color: #FF2D75; }
+
+/* Custom animation utilities */
+.animate-pulse-slow {
+    animation: pulse 3s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* Dark mode specific styles */
+.dark .bg-dark-100 { background-color: #0F172A; }
+.dark .bg-dark-200 { background-color: #1E293B; }
+.dark .bg-dark-300 { background-color: #334155; }
