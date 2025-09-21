@@ -273,14 +273,14 @@ class AnalyticsManager {
             </div>
         `;
 
-        // Show with delay
+        // Show with delay - much less aggressive timing
         widget.style.opacity = '0';
         widget.style.transform = 'translateY(20px)';
         
         setTimeout(() => {
             widget.style.opacity = '1';
             widget.style.transform = 'translateY(0)';
-        }, Math.random() * 3000 + 2000);
+        }, Math.random() * 30000 + 30000); // 30-60 seconds delay instead of 8-18 seconds
 
         return widget;
     }

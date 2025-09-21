@@ -28,6 +28,10 @@ class CurrencyConverter {
 
     async init() {
         try {
+            // Disable old currency converter to prevent conflicts with new floating buttons
+            console.log('⏸️ Currency converter disabled - using floating action buttons instead');
+            return;
+            
             // Load cached rates
             this.loadCachedRates();
             
@@ -126,16 +130,19 @@ class CurrencyConverter {
 
         const widget = document.createElement('div');
         widget.id = 'currencyWidget';
-        widget.className = 'currency-widget fixed bottom-4 left-4 z-50 bg-gray-800/95 backdrop-blur-md border border-gray-700 rounded-lg p-4 max-w-sm shadow-xl transition-all duration-300 transform translate-y-0';
+        widget.className = 'currency-widget fixed bottom-4 right-4 z-50 bg-gray-800/95 backdrop-blur-md border border-gray-700 shadow-xl transition-all duration-300 transform translate-y-0 minimized';
+        
+        // Start minimized by default
+        widget.innerHTML = '<div class="currency-icon">💱</div>';
         
         widget.innerHTML = `
             <div class="flex items-center justify-between mb-3">
-                <h3 class="text-white font-semibold flex items-center">
+                <h3 class="text-white font-semibold flex items-center text-sm">
                     <i class="fas fa-money-bill-wave mr-2 text-green-400"></i>
                     Currency Converter
                 </h3>
-                <button id="currencyToggle" class="text-gray-400 hover:text-white">
-                    <i class="fas fa-chevron-down transition-transform duration-200"></i>
+                <button id="currencyMinimize" class="text-gray-400 hover:text-white text-sm" title="Minimize">
+                    <i class="fas fa-minus"></i>
                 </button>
             </div>
             
@@ -219,15 +226,18 @@ class CurrencyConverter {
         this.attachEventListeners();
         this.updateConversion();
         
-        // Show widget with animation
+        // Show widget with animation after user has been on page for a while
         setTimeout(() => {
             widget.classList.add('animate-slide-up');
-        }, 500);
+        }, 15000); // Show after 15 seconds instead of 0.5 seconds
     }
 
     attachEventListeners() {
-        // Toggle widget
-        document.getElementById('currencyToggle').addEventListener('click', this.toggleWidget.bind(this));
+        // Minimize/maximize widget
+        const minimizeBtn = document.getElementById('currencyMinimize');
+        if (minimizeBtn) {
+            minimizeBtn.addEventListener('click', this.toggleMinimize.bind(this));
+        }
         
         // Currency conversion inputs
         document.getElementById('currencyAmount').addEventListener('input', this.updateConversion.bind(this));
@@ -250,18 +260,106 @@ class CurrencyConverter {
         });
     }
 
-    toggleWidget() {
+    toggleMinimize() {
+        const widget = document.getElementById('currencyWidget');
         const content = document.getElementById('currencyContent');
-        const toggle = document.getElementById('currencyToggle');
-        const isCollapsed = content.style.display === 'none';
         
-        if (isCollapsed) {
-            content.style.display = 'block';
-            toggle.innerHTML = '<i class="fas fa-chevron-down transition-transform duration-200"></i>';
+        if (widget.classList.contains('minimized')) {
+            // Expand widget
+            widget.classList.remove('minimized');
+            widget.innerHTML = this.getFullWidgetContent();
+            this.attachEventListeners();
+            this.updateConversion();
         } else {
-            content.style.display = 'none';
-            toggle.innerHTML = '<i class="fas fa-chevron-up transition-transform duration-200"></i>';
+            // Minimize widget
+            widget.classList.add('minimized');
+            widget.innerHTML = '<div class="currency-icon">💱</div>';
+            widget.addEventListener('click', this.toggleMinimize.bind(this));
         }
+    }
+
+    getFullWidgetContent() {
+        return `
+            <div class="flex items-center justify-between mb-3">
+                <h3 class="text-white font-semibold flex items-center text-sm">
+                    <i class="fas fa-money-bill-wave mr-2 text-green-400"></i>
+                    Currency Converter
+                </h3>
+                <button id="currencyMinimize" class="text-gray-400 hover:text-white text-sm" title="Minimize">
+                    <i class="fas fa-minus"></i>
+                </button>
+            </div>
+            
+            <div id="currencyContent" class="transition-all duration-300">
+                <div class="grid grid-cols-2 gap-3 mb-4">
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Amount</label>
+                        <input type="number" id="currencyAmount" value="2500" 
+                               class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white text-sm focus:border-blue-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">From</label>
+                        <select id="currencyFrom" class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white text-sm focus:border-blue-500 focus:outline-none">
+                            <option value="KSH">KSh (KES)</option>
+                            <option value="USD">$ (USD)</option>
+                            <option value="EUR">€ (EUR)</option>
+                            <option value="GBP">£ (GBP)</option>
+                            <option value="CAD">C$ (CAD)</option>
+                            <option value="AUD">A$ (AUD)</option>
+                            <option value="JPY">¥ (JPY)</option>
+                            <option value="CHF">CHF</option>
+                            <option value="CNY">¥ (CNY)</option>
+                            <option value="INR">₹ (INR)</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="text-center mb-3">
+                    <button id="currencySwap" class="text-blue-400 hover:text-blue-300 transition-colors">
+                        <i class="fas fa-exchange-alt"></i>
+                    </button>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-3 mb-4">
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">To</label>
+                        <select id="currencyTo" class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white text-sm focus:border-blue-500 focus:outline-none">
+                            <option value="USD">$ (USD)</option>
+                            <option value="EUR">€ (EUR)</option>
+                            <option value="GBP">£ (GBP)</option>
+                            <option value="KSH">KSh (KES)</option>
+                            <option value="CAD">C$ (CAD)</option>
+                            <option value="AUD">A$ (AUD)</option>
+                            <option value="JPY">¥ (JPY)</option>
+                            <option value="CHF">CHF</option>
+                            <option value="CNY">¥ (CNY)</option>
+                            <option value="INR">₹ (INR)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Result</label>
+                        <div id="convertedAmount" class="w-full bg-gray-700 border border-gray-600 rounded px-3 py-2 text-green-400 text-sm font-mono">
+                            $16.75
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flex items-center justify-between text-xs">
+                    <span id="exchangeRate" class="text-gray-400">1 KSH = 0.0067 USD</span>
+                    <button id="refreshRates" class="text-blue-400 hover:text-blue-300 flex items-center">
+                        <i class="fas fa-sync-alt mr-1"></i>
+                        <span id="refreshText">Refresh</span>
+                    </button>
+                </div>
+                
+                <div class="mt-3 pt-3 border-t border-gray-700">
+                    <p class="text-xs text-blue-300">
+                        <i class="fas fa-info-circle mr-1"></i>
+                        Prices shown are in Kenyan Shillings. Use converter for reference.
+                    </p>
+                </div>
+            </div>
+        `;
     }
 
     updateConversion() {
